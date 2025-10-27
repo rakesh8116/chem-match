@@ -215,16 +215,6 @@ const SupportPage: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <div className="mt-8 text-center text-gray-400">
-        <p className="mb-2">
-          Made with <Heart size={16} className="inline text-red-400" /> for chemistry education
-        </p>
-        <p className="text-sm">
-          © 2025 Ruhan Singh • IB MYP3 Project • One World International School
-        </p>
-      </div>
     </motion.div>
   );
 };
