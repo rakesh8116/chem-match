@@ -188,12 +188,27 @@ This project is open source and available under the MIT License.
 - Icons by Lucide React
 - Animations powered by Framer Motion
 
+## Author
+
+**Ruhan Singh**
+MYP3 Student, One World International School
+Whitefield, Bangalore, India
+
+Created as an IB school project to make chemistry learning fun and interactive!
+
 ## Contact
 
-Rakesh Singh - [@rakesh8116](https://github.com/rakesh8116)
-
+GitHub: [@rakesh8116](https://github.com/rakesh8116)
 Project Link: [https://github.com/rakesh8116/chem-match](https://github.com/rakesh8116/chem-match)
+
+## Credits
+
+- **Developer**: Ruhan Singh (13 years old)
+- **School**: One World International School, Whitefield, Bangalore
+- **Program**: IB MYP3 (Middle Years Programme, Year 3)
+- **Project Type**: School Chemistry Project
+- **Year**: 2025
 
 ---
 
-Made with ⚛️ and 💙 for chemistry education
+Made with ⚛️ and 💙 for chemistry education by a passionate student developer!

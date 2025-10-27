@@ -9,6 +9,7 @@ import {
   BookOpen,
   Gamepad2,
   Atom,
+  Info,
 } from 'lucide-react';
 import { useGameStore } from '@/store/gameStore';
 
@@ -28,6 +29,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { path: '/achievements', label: 'Achievements', icon: Trophy },
     { path: '/tutorial', label: 'Tutorial', icon: BookOpen },
     { path: '/settings', label: 'Settings', icon: Settings },
+    { path: '/support', label: 'About', icon: Info },
   ];
 
   return (
@@ -106,8 +108,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <footer className="glass-effect border-t border-white/10 mt-auto">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="text-center text-sm text-gray-400">
-            <p>© 2024 ChemMatch - Learn Chemistry Through Play</p>
-            <p className="mt-1">Made with ❤️ for chemistry students everywhere</p>
+            <p>© 2025 ChemMatch - Learn Chemistry Through Play</p>
+            <p className="mt-1">Made with ❤️ by Ruhan Singh • IB MYP3 Project</p>
+            <p className="mt-1 text-xs">One World International School, Whitefield, Bangalore</p>
           </div>
         </div>
       </footer>

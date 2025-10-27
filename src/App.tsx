@@ -14,6 +14,7 @@ const AchievementsPage = lazy(() => import('@/pages/AchievementsPage'));
 const PeriodicTablePage = lazy(() => import('@/pages/PeriodicTablePage'));
 const TutorialPage = lazy(() => import('@/pages/TutorialPage'));
 const SettingsPage = lazy(() => import('@/pages/SettingsPage'));
+const SupportPage = lazy(() => import('@/pages/SupportPage'));
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
               <Route path="/periodic-table" element={<PeriodicTablePage />} />
               <Route path="/tutorial" element={<TutorialPage />} />
               <Route path="/settings" element={<SettingsPage />} />
+              <Route path="/support" element={<SupportPage />} />
             </Routes>
           </Suspense>
         </Layout>
