@@ -6,7 +6,7 @@ import { Toaster } from 'react-hot-toast';
 import LoadingScreen from '@/components/LoadingScreen';
 import Layout from '@/components/Layout';
 
-// Lazy load pages for better performance
+// Lazy load pages
 const HomePage = lazy(() => import('@/pages/HomePage'));
 const PlaygroundPage = lazy(() => import('@/pages/PlaygroundPage'));
 const LevelsPage = lazy(() => import('@/pages/LevelsPage'));
