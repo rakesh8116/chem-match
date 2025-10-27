@@ -8,7 +8,7 @@ const SupportPage: React.FC = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="min-h-screen pb-12"
+      className="pb-20"
     >
       <h1 className="text-4xl font-bold gradient-text mb-8">About & Support</h1>
 
@@ -38,41 +38,67 @@ const SupportPage: React.FC = () => {
           <Award size={32} className="text-blue-400" />
           <h2 className="text-3xl font-bold">About the Developer</h2>
         </div>
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-3 gap-6">
+          {/* Profile Photo */}
+          <div className="flex flex-col items-center justify-center">
+            <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-blue-500/50 shadow-2xl mb-4">
+              <img
+                src="/images/ruhan-profile.jpg"
+                alt="Ruhan Singh"
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  const parent = target.parentElement;
+                  if (parent) {
+                    parent.innerHTML = '<div class="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-6xl font-bold">RS</div>';
+                  }
+                }}
+              />
+            </div>
+            <div className="text-center">
+              <h3 className="text-xl font-bold gradient-text mb-1">Ruhan Singh</h3>
+              <p className="text-sm text-gray-400">Student Developer • Age 13</p>
+            </div>
+          </div>
+
+          {/* Info Column */}
           <div className="space-y-4">
             <div className="flex items-start gap-3">
               <Code size={24} className="text-blue-400 mt-1" />
               <div>
-                <h3 className="text-xl font-semibold mb-1">Ruhan Singh</h3>
-                <p className="text-gray-400">Student Developer, Age 13</p>
+                <h3 className="text-lg font-semibold mb-1">Full Stack Developer</h3>
+                <p className="text-gray-400 text-sm">React, TypeScript, Web Technologies</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
               <School size={24} className="text-green-400 mt-1" />
               <div>
                 <h3 className="text-lg font-semibold mb-1">One World International School</h3>
-                <p className="text-gray-400">Whitefield, Bangalore, India</p>
+                <p className="text-gray-400 text-sm">Whitefield, Bangalore, India</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
               <Award size={24} className="text-purple-400 mt-1" />
               <div>
                 <h3 className="text-lg font-semibold mb-1">IB MYP3</h3>
-                <p className="text-gray-400">Middle Years Programme - Year 3</p>
+                <p className="text-gray-400 text-sm">Middle Years Programme - Year 3</p>
               </div>
             </div>
           </div>
+
+          {/* Motivation Column */}
           <div className="bg-gray-800/50 rounded-lg p-6">
             <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
               <Heart size={20} className="text-red-400" />
               Project Motivation
             </h3>
-            <p className="text-gray-300 mb-4">
+            <p className="text-gray-300 mb-4 text-sm">
               "I created this project to make chemistry more fun and accessible for students like me.
               Balancing equations can be challenging, but with the right tools and gamification,
               it becomes an engaging learning experience!"
             </p>
-            <p className="text-sm text-gray-400 italic">
+            <p className="text-xs text-gray-400 italic">
               - Ruhan Singh, 2025
             </p>
           </div>
