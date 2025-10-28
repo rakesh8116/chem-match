@@ -215,12 +215,12 @@ const LevelsPage: React.FC = () => {
 
   const getDifficultyBadgeColor = (difficulty: string) => {
     const colors: Record<string, string> = {
-      beginner: 'bg-green-500/20 text-green-400 border-green-500/30',
-      intermediate: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
-      advanced: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
-      expert: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+      beginner: 'bg-green-50 text-green-700 border-green-300',
+      intermediate: 'bg-blue-50 text-blue-700 border-blue-300',
+      advanced: 'bg-purple-50 text-purple-700 border-purple-300',
+      expert: 'bg-amber-50 text-amber-700 border-amber-300',
     };
-    return colors[difficulty] || 'bg-gray-500/20 text-gray-400 border-gray-500/30';
+    return colors[difficulty] || 'bg-gray-50 text-gray-700 border-gray-300';
   };
 
   const handleLevelClick = (level: Level) => {
@@ -243,28 +243,28 @@ const LevelsPage: React.FC = () => {
         <div className="card p-6">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-sm text-gray-400 mb-1">Completed Levels</div>
-              <div className="text-3xl font-bold text-green-400">{completedLevels}</div>
+              <div className="text-sm text-gray-600 mb-1">Completed Levels</div>
+              <div className="text-3xl font-bold text-green-600">{completedLevels}</div>
             </div>
-            <Trophy size={40} className="text-green-400" />
+            <Trophy size={40} className="text-green-600" />
           </div>
         </div>
         <div className="card p-6">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-sm text-gray-400 mb-1">Unlocked Levels</div>
-              <div className="text-3xl font-bold text-blue-400">{unlockedCount}</div>
+              <div className="text-sm text-gray-600 mb-1">Unlocked Levels</div>
+              <div className="text-3xl font-bold text-blue-600">{unlockedCount}</div>
             </div>
-            <Lock size={40} className="text-blue-400" />
+            <Lock size={40} className="text-blue-600" />
           </div>
         </div>
         <div className="card p-6">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-sm text-gray-400 mb-1">Your Level</div>
-              <div className="text-3xl font-bold text-purple-400">{playerStats.level}</div>
+              <div className="text-sm text-gray-600 mb-1">Your Level</div>
+              <div className="text-3xl font-bold text-purple-600">{playerStats.level}</div>
             </div>
-            <Star size={40} className="text-purple-400" />
+            <Star size={40} className="text-purple-600" />
           </div>
         </div>
       </div>
@@ -277,8 +277,8 @@ const LevelsPage: React.FC = () => {
             onClick={() => setSelectedDifficulty(difficulty)}
             className={`px-4 py-2 rounded-lg border-2 transition-all capitalize ${
               selectedDifficulty === difficulty
-                ? 'border-blue-500 bg-blue-500/20 text-blue-400'
-                : 'border-gray-600 bg-gray-700/50 text-gray-300 hover:border-gray-500'
+                ? 'border-blue-500 bg-blue-50 text-blue-700'
+                : 'border-gray-300 bg-white text-gray-700 hover:border-gray-400'
             }`}
           >
             {difficulty}
@@ -302,7 +302,7 @@ const LevelsPage: React.FC = () => {
                 level.unlocked
                   ? 'cursor-pointer hover:scale-105 hover:shadow-2xl'
                   : 'opacity-60 cursor-not-allowed'
-              } ${level.completed ? 'border-2 border-green-500/30' : ''}`}
+              } ${level.completed ? 'border-2 border-green-300' : ''}`}
             >
               {/* Background Gradient */}
               <div
@@ -324,24 +324,24 @@ const LevelsPage: React.FC = () => {
                       <Icon size={28} className="text-white" />
                     </div>
                     <div>
-                      <div className="text-sm text-gray-400">Level {level.number}</div>
+                      <div className="text-sm text-gray-600">Level {level.number}</div>
                       <div className="text-2xl font-bold">{level.title}</div>
                     </div>
                   </div>
                   {level.completed && (
-                    <div className="bg-green-500/20 p-2 rounded-full">
-                      <Check size={20} className="text-green-400" />
+                    <div className="bg-green-100 p-2 rounded-full">
+                      <Check size={20} className="text-green-600" />
                     </div>
                   )}
                   {!level.unlocked && (
-                    <div className="bg-gray-600/20 p-2 rounded-full">
-                      <Lock size={20} className="text-gray-400" />
+                    <div className="bg-gray-100 p-2 rounded-full">
+                      <Lock size={20} className="text-gray-600" />
                     </div>
                   )}
                 </div>
 
                 {/* Description */}
-                <p className="text-sm text-gray-400 mb-4">{level.description}</p>
+                <p className="text-sm text-gray-600 mb-4">{level.description}</p>
 
                 {/* Difficulty Badge */}
                 <div className="mb-4">
@@ -359,8 +359,8 @@ const LevelsPage: React.FC = () => {
                         size={20}
                         className={
                           star <= level.stars
-                            ? 'text-yellow-400 fill-yellow-400'
-                            : 'text-gray-600'
+                            ? 'text-amber-500 fill-amber-500'
+                            : 'text-gray-300'
                         }
                       />
                     ))}
@@ -369,19 +369,19 @@ const LevelsPage: React.FC = () => {
 
                 {/* Stats */}
                 <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div className="bg-gray-700/50 rounded-lg p-3">
-                    <div className="text-xs text-gray-400 mb-1">Equations</div>
-                    <div className="text-lg font-bold text-blue-400">{level.equations}</div>
+                  <div className="bg-gray-50 rounded-lg p-3">
+                    <div className="text-xs text-gray-600 mb-1">Equations</div>
+                    <div className="text-lg font-bold text-blue-600">{level.equations}</div>
                   </div>
-                  <div className="bg-gray-700/50 rounded-lg p-3">
-                    <div className="text-xs text-gray-400 mb-1">XP Reward</div>
-                    <div className="text-lg font-bold text-purple-400">{level.xpReward}</div>
+                  <div className="bg-gray-50 rounded-lg p-3">
+                    <div className="text-xs text-gray-600 mb-1">XP Reward</div>
+                    <div className="text-lg font-bold text-purple-600">{level.xpReward}</div>
                   </div>
                 </div>
 
                 {/* Unlock Requirement */}
                 {!level.unlocked && (
-                  <div className="flex items-center gap-2 text-sm text-yellow-400 bg-yellow-500/10 rounded-lg p-3">
+                  <div className="flex items-center gap-2 text-sm text-amber-700 bg-amber-50 rounded-lg p-3">
                     <Lock size={16} />
                     <span>Requires Level {level.requiredLevel}</span>
                   </div>

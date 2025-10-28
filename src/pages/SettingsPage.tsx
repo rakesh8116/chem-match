@@ -35,17 +35,17 @@ const SettingsPage: React.FC = () => {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
-          className="mb-6 p-4 bg-green-500/10 border border-green-500/30 rounded-lg flex items-center gap-2"
+          className="mb-6 p-4 bg-green-50 border-2 border-green-300 rounded-lg flex items-center gap-2"
         >
-          <Save size={20} className="text-green-400" />
-          <span className="text-green-100">{saveMessage}</span>
+          <Save size={20} className="text-green-600" />
+          <span className="text-green-800">{saveMessage}</span>
         </motion.div>
       )}
 
       {/* Audio Settings */}
       <div className="card p-6 mb-6">
         <div className="flex items-center gap-3 mb-6">
-          <Volume2 size={24} className="text-blue-400" />
+          <Volume2 size={24} className="text-blue-600" />
           <h2 className="text-2xl font-semibold">Audio Settings</h2>
         </div>
 
@@ -54,13 +54,13 @@ const SettingsPage: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               {userPreferences.soundEnabled ? (
-                <Volume2 size={20} className="text-blue-400" />
+                <Volume2 size={20} className="text-blue-600" />
               ) : (
-                <VolumeX size={20} className="text-gray-400" />
+                <VolumeX size={20} className="text-gray-600" />
               )}
               <div>
                 <div className="text-lg font-medium">Sound Effects</div>
-                <div className="text-sm text-gray-400">Enable or disable sound effects</div>
+                <div className="text-sm text-gray-600">Enable or disable sound effects</div>
               </div>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
@@ -70,7 +70,7 @@ const SettingsPage: React.FC = () => {
                 onChange={(e) => updatePreferences({ soundEnabled: e.target.checked })}
                 className="sr-only peer"
               />
-              <div className="w-14 h-7 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-blue-600"></div>
+              <div className="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-blue-600"></div>
             </label>
           </div>
 
@@ -79,7 +79,7 @@ const SettingsPage: React.FC = () => {
             <div>
               <div className="flex items-center justify-between mb-2">
                 <label className="text-sm font-medium">Sound Volume</label>
-                <span className="text-sm text-blue-400">{Math.round(userPreferences.soundVolume * 100)}%</span>
+                <span className="text-sm text-blue-600">{Math.round(userPreferences.soundVolume * 100)}%</span>
               </div>
               <input
                 type="range"
@@ -88,7 +88,7 @@ const SettingsPage: React.FC = () => {
                 step="0.1"
                 value={userPreferences.soundVolume}
                 onChange={(e) => updatePreferences({ soundVolume: parseFloat(e.target.value) })}
-                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
               />
             </div>
           )}
@@ -96,10 +96,10 @@ const SettingsPage: React.FC = () => {
           {/* Music Toggle */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Music size={20} className="text-purple-400" />
+              <Music size={20} className="text-purple-600" />
               <div>
                 <div className="text-lg font-medium">Background Music</div>
-                <div className="text-sm text-gray-400">Enable or disable background music</div>
+                <div className="text-sm text-gray-600">Enable or disable background music</div>
               </div>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
@@ -109,7 +109,7 @@ const SettingsPage: React.FC = () => {
                 onChange={(e) => updatePreferences({ musicEnabled: e.target.checked })}
                 className="sr-only peer"
               />
-              <div className="w-14 h-7 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-blue-600"></div>
+              <div className="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-blue-600"></div>
             </label>
           </div>
 
@@ -118,7 +118,7 @@ const SettingsPage: React.FC = () => {
             <div>
               <div className="flex items-center justify-between mb-2">
                 <label className="text-sm font-medium">Music Volume</label>
-                <span className="text-sm text-purple-400">{Math.round(userPreferences.musicVolume * 100)}%</span>
+                <span className="text-sm text-purple-600">{Math.round(userPreferences.musicVolume * 100)}%</span>
               </div>
               <input
                 type="range"
@@ -127,7 +127,7 @@ const SettingsPage: React.FC = () => {
                 step="0.1"
                 value={userPreferences.musicVolume}
                 onChange={(e) => updatePreferences({ musicVolume: parseFloat(e.target.value) })}
-                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
               />
             </div>
           )}
@@ -137,7 +137,7 @@ const SettingsPage: React.FC = () => {
       {/* Game Settings */}
       <div className="card p-6 mb-6">
         <div className="flex items-center gap-3 mb-6">
-          <Zap size={24} className="text-yellow-400" />
+          <Zap size={24} className="text-amber-600" />
           <h2 className="text-2xl font-semibold">Game Settings</h2>
         </div>
 
@@ -152,8 +152,8 @@ const SettingsPage: React.FC = () => {
                   onClick={() => updatePreferences({ difficulty: level })}
                   className={`px-4 py-3 rounded-lg border-2 transition-all ${
                     userPreferences.difficulty === level
-                      ? 'border-blue-500 bg-blue-500/20 text-blue-400'
-                      : 'border-gray-600 bg-gray-700/50 text-gray-300 hover:border-gray-500'
+                      ? 'border-blue-500 bg-blue-50 text-blue-700'
+                      : 'border-gray-300 bg-white text-gray-700 hover:border-gray-400'
                   }`}
                 >
                   <div className="font-semibold capitalize">{level}</div>
@@ -166,7 +166,7 @@ const SettingsPage: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <div className="text-lg font-medium">Enable Hints</div>
-              <div className="text-sm text-gray-400">Allow hint system during gameplay</div>
+              <div className="text-sm text-gray-600">Allow hint system during gameplay</div>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
@@ -175,7 +175,7 @@ const SettingsPage: React.FC = () => {
                 onChange={(e) => updatePreferences({ hintsEnabled: e.target.checked })}
                 className="sr-only peer"
               />
-              <div className="w-14 h-7 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-blue-600"></div>
+              <div className="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-blue-600"></div>
             </label>
           </div>
 
@@ -189,8 +189,8 @@ const SettingsPage: React.FC = () => {
                   onClick={() => updatePreferences({ animations: level })}
                   className={`px-4 py-3 rounded-lg border-2 transition-all ${
                     userPreferences.animations === level
-                      ? 'border-purple-500 bg-purple-500/20 text-purple-400'
-                      : 'border-gray-600 bg-gray-700/50 text-gray-300 hover:border-gray-500'
+                      ? 'border-purple-500 bg-purple-50 text-purple-700'
+                      : 'border-gray-300 bg-white text-gray-700 hover:border-gray-400'
                   }`}
                 >
                   <div className="font-semibold capitalize">{level}</div>
@@ -204,7 +204,7 @@ const SettingsPage: React.FC = () => {
       {/* Appearance Settings */}
       <div className="card p-6 mb-6">
         <div className="flex items-center gap-3 mb-6">
-          <Palette size={24} className="text-pink-400" />
+          <Palette size={24} className="text-pink-600" />
           <h2 className="text-2xl font-semibold">Appearance</h2>
         </div>
 
@@ -219,8 +219,8 @@ const SettingsPage: React.FC = () => {
                   onClick={() => updatePreferences({ theme })}
                   className={`px-4 py-3 rounded-lg border-2 transition-all ${
                     userPreferences.theme === theme
-                      ? 'border-pink-500 bg-pink-500/20 text-pink-400'
-                      : 'border-gray-600 bg-gray-700/50 text-gray-300 hover:border-gray-500'
+                      ? 'border-pink-500 bg-pink-50 text-pink-700'
+                      : 'border-gray-300 bg-white text-gray-700 hover:border-gray-400'
                   }`}
                 >
                   <div className="font-semibold capitalize">{theme}</div>
@@ -238,7 +238,7 @@ const SettingsPage: React.FC = () => {
             <select
               value={userPreferences.language}
               onChange={(e) => updatePreferences({ language: e.target.value })}
-              className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:border-blue-500 focus:outline-none"
+              className="w-full px-4 py-3 bg-white border-2 border-gray-300 rounded-lg text-gray-800 focus:border-blue-500 focus:outline-none"
             >
               <option value="en">English</option>
               <option value="es">Español</option>
@@ -251,28 +251,28 @@ const SettingsPage: React.FC = () => {
       </div>
 
       {/* Danger Zone */}
-      <div className="card p-6 border-2 border-red-500/30">
+      <div className="card p-6 border-2 border-red-300">
         <div className="flex items-center gap-3 mb-6">
-          <AlertCircle size={24} className="text-red-400" />
-          <h2 className="text-2xl font-semibold text-red-400">Danger Zone</h2>
+          <AlertCircle size={24} className="text-red-600" />
+          <h2 className="text-2xl font-semibold text-red-700">Danger Zone</h2>
         </div>
 
         <div className="space-y-4">
-          <p className="text-gray-300">
+          <p className="text-gray-700">
             Resetting your progress will delete all your achievements, statistics, and completed levels. This action cannot be undone.
           </p>
 
           {!showResetConfirm ? (
             <button
               onClick={() => setShowResetConfirm(true)}
-              className="px-6 py-3 bg-red-500/20 border-2 border-red-500 text-red-400 rounded-lg hover:bg-red-500/30 transition-all flex items-center gap-2"
+              className="px-6 py-3 bg-red-50 border-2 border-red-500 text-red-700 rounded-lg hover:bg-red-100 transition-all flex items-center gap-2"
             >
               <RotateCcw size={20} />
               Reset All Progress
             </button>
           ) : (
             <div className="space-y-3">
-              <p className="text-yellow-400 font-semibold">Are you sure? This cannot be undone!</p>
+              <p className="text-amber-700 font-semibold">Are you sure? This cannot be undone!</p>
               <div className="flex gap-3">
                 <button
                   onClick={handleReset}
@@ -282,7 +282,7 @@ const SettingsPage: React.FC = () => {
                 </button>
                 <button
                   onClick={() => setShowResetConfirm(false)}
-                  className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-all"
+                  className="px-6 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-all"
                 >
                   Cancel
                 </button>

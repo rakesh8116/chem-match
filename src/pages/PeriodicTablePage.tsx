@@ -14,6 +14,25 @@ interface Element {
 const PeriodicTablePage: React.FC = () => {
   const [selectedElement, setSelectedElement] = useState<Element | null>(null);
 
+  // Calculate electron configuration for visual model (simplified Bohr model)
+  const getElectronShells = (atomicNumber: number): number[] => {
+    const shells: number[] = [];
+    let remainingElectrons = atomicNumber;
+
+    // Shell capacity: 2, 8, 18, 32...  (2n²)
+    // For simplicity, we'll use: 2, 8, 8, 18 for first 36 elements
+    const shellCapacities = [2, 8, 8, 18, 18, 32];
+
+    for (const capacity of shellCapacities) {
+      if (remainingElectrons <= 0) break;
+      const electronsInShell = Math.min(remainingElectrons, capacity);
+      shells.push(electronsInShell);
+      remainingElectrons -= electronsInShell;
+    }
+
+    return shells;
+  };
+
   // Simplified periodic table data (first 36 elements for main layout)
   const elements: Element[] = [
     // Period 1
@@ -63,16 +82,16 @@ const PeriodicTablePage: React.FC = () => {
 
   const getCategoryColor = (category: string): string => {
     const colors: Record<string, string> = {
-      'alkali': 'bg-red-500/20 border-red-500 hover:bg-red-500/30',
-      'alkaline': 'bg-orange-500/20 border-orange-500 hover:bg-orange-500/30',
-      'transition': 'bg-pink-500/20 border-pink-500 hover:bg-pink-500/30',
-      'post-transition': 'bg-blue-400/20 border-blue-400 hover:bg-blue-400/30',
-      'metalloid': 'bg-teal-500/20 border-teal-500 hover:bg-teal-500/30',
-      'nonmetal': 'bg-green-500/20 border-green-500 hover:bg-green-500/30',
-      'halogen': 'bg-yellow-500/20 border-yellow-500 hover:bg-yellow-500/30',
-      'noble-gas': 'bg-purple-500/20 border-purple-500 hover:bg-purple-500/30',
+      'alkali': 'bg-red-100 border-2 border-red-400 hover:bg-red-200 hover:border-red-500 text-red-900',
+      'alkaline': 'bg-orange-100 border-2 border-orange-400 hover:bg-orange-200 hover:border-orange-500 text-orange-900',
+      'transition': 'bg-pink-100 border-2 border-pink-400 hover:bg-pink-200 hover:border-pink-500 text-pink-900',
+      'post-transition': 'bg-blue-100 border-2 border-blue-400 hover:bg-blue-200 hover:border-blue-500 text-blue-900',
+      'metalloid': 'bg-teal-100 border-2 border-teal-400 hover:bg-teal-200 hover:border-teal-500 text-teal-900',
+      'nonmetal': 'bg-green-100 border-2 border-green-400 hover:bg-green-200 hover:border-green-500 text-green-900',
+      'halogen': 'bg-yellow-100 border-2 border-yellow-400 hover:bg-yellow-200 hover:border-yellow-500 text-yellow-900',
+      'noble-gas': 'bg-purple-100 border-2 border-purple-400 hover:bg-purple-200 hover:border-purple-500 text-purple-900',
     };
-    return colors[category] || 'bg-gray-500/20 border-gray-500 hover:bg-gray-500/30';
+    return colors[category] || 'bg-gray-100 border-2 border-gray-400 hover:bg-gray-200 hover:border-gray-500 text-gray-900';
   };
 
   return (
@@ -93,19 +112,19 @@ const PeriodicTablePage: React.FC = () => {
               whileTap={{ scale: 0.95 }}
               onClick={() => setSelectedElement(element)}
               className={`
-                cursor-pointer border-2 rounded-lg p-2 text-center transition-all
+                cursor-pointer rounded-xl p-3 text-center transition-all shadow-sm hover:shadow-md
                 ${getCategoryColor(element.category)}
               `}
               style={{
                 gridRow: element.row,
                 gridColumn: element.col,
-                minHeight: '80px',
+                minHeight: '90px',
               }}
             >
-              <div className="text-xs text-gray-400">{element.number}</div>
-              <div className="text-xl font-bold text-white">{element.symbol}</div>
-              <div className="text-xs text-gray-300 truncate">{element.name}</div>
-              <div className="text-xs text-gray-400">{element.mass}</div>
+              <div className="text-xs font-semibold opacity-70">{element.number}</div>
+              <div className="text-2xl font-bold my-1">{element.symbol}</div>
+              <div className="text-xs font-medium truncate opacity-80">{element.name}</div>
+              <div className="text-xs font-semibold opacity-70">{element.mass}</div>
             </motion.div>
           ))}
         </div>
@@ -113,8 +132,8 @@ const PeriodicTablePage: React.FC = () => {
 
       {/* Legend */}
       <div className="card p-6 mb-8">
-        <h3 className="text-xl font-semibold mb-4">Element Categories</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <h3 className="text-2xl font-bold text-gray-800 mb-4">Element Categories</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { name: 'Alkali Metals', category: 'alkali' },
             { name: 'Alkaline Earth', category: 'alkaline' },
@@ -125,22 +144,22 @@ const PeriodicTablePage: React.FC = () => {
             { name: 'Halogens', category: 'halogen' },
             { name: 'Noble Gases', category: 'noble-gas' },
           ].map((item) => (
-            <div key={item.category} className="flex items-center gap-2">
-              <div className={`w-4 h-4 border-2 rounded ${getCategoryColor(item.category)}`}></div>
-              <span className="text-sm text-gray-300">{item.name}</span>
+            <div key={item.category} className="flex items-center gap-3">
+              <div className={`w-6 h-6 rounded-lg shadow-sm ${getCategoryColor(item.category)}`}></div>
+              <span className="text-sm font-semibold text-gray-700">{item.name}</span>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Selected Element Details */}
+      {/* Selected Element Details with Atomic Model */}
       {selectedElement && (
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           className="card p-8"
         >
-          <div className="flex justify-between items-start mb-4">
+          <div className="flex justify-between items-start mb-6">
             <h2 className="text-3xl font-bold gradient-text">{selectedElement.name}</h2>
             <button
               onClick={() => setSelectedElement(null)}
@@ -149,23 +168,197 @@ const PeriodicTablePage: React.FC = () => {
               ×
             </button>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div>
-              <div className="text-sm text-gray-400 mb-1">Atomic Number</div>
-              <div className="text-2xl font-bold text-blue-400">{selectedElement.number}</div>
+
+          {/* Two Column Layout: Info + Atomic Model */}
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Element Info */}
+            <div className="space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 border-2 border-blue-300">
+                  <div className="text-sm font-semibold text-gray-600 mb-1">Atomic Number</div>
+                  <div className="text-3xl font-bold text-blue-700">{selectedElement.number}</div>
+                </div>
+                <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 border-2 border-purple-300">
+                  <div className="text-sm font-semibold text-gray-600 mb-1">Symbol</div>
+                  <div className="text-3xl font-bold text-purple-700">{selectedElement.symbol}</div>
+                </div>
+                <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 border-2 border-green-300">
+                  <div className="text-sm font-semibold text-gray-600 mb-1">Atomic Mass</div>
+                  <div className="text-3xl font-bold text-green-700">{selectedElement.mass}</div>
+                </div>
+                <div className="bg-gradient-to-br from-amber-50 to-amber-100 rounded-xl p-4 border-2 border-amber-300">
+                  <div className="text-sm font-semibold text-gray-600 mb-1">Category</div>
+                  <div className="text-lg font-bold text-amber-800 capitalize">
+                    {selectedElement.category.replace('-', ' ')}
+                  </div>
+                </div>
+              </div>
+
+              {/* Electron Configuration */}
+              <div className="bg-gradient-to-br from-indigo-50 to-blue-50 rounded-xl p-4 border-2 border-indigo-300">
+                <h3 className="text-lg font-bold text-indigo-700 mb-3">Electron Configuration</h3>
+                <div className="flex flex-wrap gap-2">
+                  {getElectronShells(selectedElement.number).map((electrons, shellIndex) => (
+                    <div
+                      key={shellIndex}
+                      className="bg-white rounded-lg px-3 py-2 border-2 border-indigo-200 shadow-sm"
+                    >
+                      <span className="text-gray-600 font-semibold">Shell {shellIndex + 1}:</span>{' '}
+                      <span className="text-indigo-700 font-bold">{electrons}</span>{' '}
+                      <span className="text-gray-500 font-semibold">e⁻</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
-            <div>
-              <div className="text-sm text-gray-400 mb-1">Symbol</div>
-              <div className="text-2xl font-bold text-purple-400">{selectedElement.symbol}</div>
-            </div>
-            <div>
-              <div className="text-sm text-gray-400 mb-1">Atomic Mass</div>
-              <div className="text-2xl font-bold text-green-400">{selectedElement.mass}</div>
-            </div>
-            <div>
-              <div className="text-sm text-gray-400 mb-1">Category</div>
-              <div className="text-lg font-semibold text-yellow-400 capitalize">
-                {selectedElement.category.replace('-', ' ')}
+
+            {/* Bohr Model Atomic Visualization */}
+            <div className="flex items-center justify-center">
+              <div className="relative w-full max-w-md aspect-square">
+                {/* Title */}
+                <div className="text-center mb-4">
+                  <h3 className="text-xl font-bold text-gray-800 mb-1">Bohr Model</h3>
+                  <p className="text-sm text-gray-600 font-semibold">Electron Shell Diagram</p>
+                </div>
+
+                {/* Atomic Model SVG */}
+                <svg
+                  viewBox="0 0 400 400"
+                  className="w-full h-full"
+                  style={{ filter: 'drop-shadow(0 0 20px rgba(59, 130, 246, 0.3))' }}
+                >
+                  {/* Nucleus */}
+                  <motion.circle
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: 'spring', damping: 10 }}
+                    cx="200"
+                    cy="200"
+                    r="20"
+                    fill="url(#nucleusGradient)"
+                    stroke="#ef4444"
+                    strokeWidth="2"
+                  />
+
+                  {/* Nucleus gradient */}
+                  <defs>
+                    <radialGradient id="nucleusGradient">
+                      <stop offset="0%" stopColor="#fca5a5" />
+                      <stop offset="100%" stopColor="#dc2626" />
+                    </radialGradient>
+                  </defs>
+
+                  {/* Nucleus Label */}
+                  <text
+                    x="200"
+                    y="205"
+                    textAnchor="middle"
+                    fill="white"
+                    fontSize="12"
+                    fontWeight="bold"
+                  >
+                    {selectedElement.symbol}
+                  </text>
+
+                  {/* Electron Shells */}
+                  {getElectronShells(selectedElement.number).map((electronCount, shellIndex) => {
+                    const radius = 50 + shellIndex * 45;
+                    const angleStep = (2 * Math.PI) / electronCount;
+
+                    return (
+                      <g key={shellIndex}>
+                        {/* Shell orbit */}
+                        <motion.circle
+                          initial={{ scale: 0, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          transition={{ delay: shellIndex * 0.1, type: 'spring' }}
+                          cx="200"
+                          cy="200"
+                          r={radius}
+                          fill="none"
+                          stroke={`hsl(${shellIndex * 40 + 200}, 70%, 50%)`}
+                          strokeWidth="1.5"
+                          strokeDasharray="4 4"
+                          opacity="0.4"
+                        />
+
+                        {/* Electrons on this shell */}
+                        {Array.from({ length: electronCount }).map((_, electronIndex) => {
+                          const angle = electronIndex * angleStep - Math.PI / 2;
+                          const x = 200 + radius * Math.cos(angle);
+                          const y = 200 + radius * Math.sin(angle);
+
+                          return (
+                            <motion.g
+                              key={electronIndex}
+                              initial={{ scale: 0, opacity: 0 }}
+                              animate={{ scale: 1, opacity: 1 }}
+                              transition={{
+                                delay: shellIndex * 0.1 + electronIndex * 0.05,
+                                type: 'spring',
+                                damping: 8,
+                              }}
+                            >
+                              {/* Electron glow */}
+                              <circle
+                                cx={x}
+                                cy={y}
+                                r="8"
+                                fill={`hsl(${shellIndex * 40 + 200}, 90%, 60%)`}
+                                opacity="0.3"
+                              />
+                              {/* Electron */}
+                              <circle
+                                cx={x}
+                                cy={y}
+                                r="5"
+                                fill={`hsl(${shellIndex * 40 + 200}, 80%, 70%)`}
+                                stroke="white"
+                                strokeWidth="1"
+                              />
+                              {/* e- label on hover */}
+                              <text
+                                x={x}
+                                y={y + 3}
+                                textAnchor="middle"
+                                fill="white"
+                                fontSize="8"
+                                fontWeight="bold"
+                                opacity="0.8"
+                              >
+                                e⁻
+                              </text>
+                            </motion.g>
+                          );
+                        })}
+
+                        {/* Shell label */}
+                        <text
+                          x="200"
+                          y={200 - radius - 10}
+                          textAnchor="middle"
+                          fill={`hsl(${shellIndex * 40 + 200}, 70%, 70%)`}
+                          fontSize="11"
+                          fontWeight="bold"
+                        >
+                          Shell {shellIndex + 1} ({electronCount})
+                        </text>
+                      </g>
+                    );
+                  })}
+                </svg>
+
+                {/* Legend */}
+                <div className="mt-4 flex justify-center gap-4 text-sm">
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full bg-red-500"></div>
+                    <span className="text-gray-300">Nucleus</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full bg-blue-400"></div>
+                    <span className="text-gray-300">Electrons</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

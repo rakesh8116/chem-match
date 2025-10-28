@@ -1,37 +1,103 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;600&display=swap');
+/* Educational Theme - Inspired by Khan Academy, Coursera, Duolingo */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   body {
-    @apply bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white min-h-screen;
-    font-family: 'Inter', sans-serif;
+    /* Clean, soft background - easy on eyes */
+    @apply bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 text-gray-800 min-h-screen;
+    font-family: 'Source Sans 3', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
   }
-  
+
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    color: #1e293b; /* slate-800 - high contrast */
+    letter-spacing: -0.02em;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+
+  p {
+    @apply text-gray-700 leading-relaxed;
   }
 }
 
 @layer components {
+  /* Primary Action Button - Vibrant but professional */
   .btn-primary {
-    @apply px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200;
+    @apply px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200;
+    font-family: 'Nunito', sans-serif;
   }
-  
+
+  /* Secondary Button - Softer, professional */
   .btn-secondary {
-    @apply px-6 py-3 bg-gradient-to-r from-gray-700 to-gray-900 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200;
+    @apply px-6 py-3 bg-white text-gray-700 font-semibold rounded-xl border-2 border-gray-300 shadow-sm hover:shadow-md hover:border-gray-400 transform hover:-translate-y-0.5 transition-all duration-200;
+    font-family: 'Nunito', sans-serif;
   }
-  
+
+  /* Card - Clean white cards with subtle shadows */
   .card {
-    @apply bg-white/10 backdrop-blur-lg rounded-xl border border-white/20 shadow-xl;
+    @apply bg-white rounded-2xl border border-gray-200 shadow-lg hover:shadow-xl transition-shadow duration-300;
   }
-  
+
+  /* Gradient Text - Educational blue/teal */
   .gradient-text {
-    @apply bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text text-transparent;
+    font-weight: 800;
   }
-  
+
+  /* Glass Effect - For overlays */
   .glass-effect {
-    @apply bg-white/5 backdrop-blur-md border border-white/10;
+    @apply bg-white/90 backdrop-blur-md border border-gray-200 shadow-xl;
+  }
+
+  /* Success Color - Green like Duolingo */
+  .success-color {
+    @apply bg-emerald-500 text-white;
+  }
+
+  /* Info Color - Blue like Khan Academy */
+  .info-color {
+    @apply bg-blue-500 text-white;
+  }
+
+  /* Warning Color - Amber */
+  .warning-color {
+    @apply bg-amber-500 text-white;
+  }
+
+  /* Error Color - Red but softer */
+  .error-color {
+    @apply bg-rose-500 text-white;
+  }
+
+  /* Educational Card Sections */
+  .section-card {
+    @apply bg-gradient-to-br from-white to-blue-50 rounded-2xl border-2 border-blue-100 shadow-md p-6;
+  }
+
+  /* Highlight Box - For important info */
+  .highlight-box {
+    @apply bg-gradient-to-r from-amber-50 to-orange-50 border-l-4 border-amber-500 rounded-lg p-4;
+  }
+
+  /* Code/Formula Display */
+  .formula-display {
+    @apply bg-gray-50 border-2 border-gray-300 rounded-xl p-4 font-mono text-lg text-gray-800;
   }
 }

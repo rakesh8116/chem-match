@@ -49,13 +49,17 @@ const HomePage: React.FC = () => {
         transition={{ duration: 0.5 }}
         className="text-center py-12"
       >
-        <h1 className="text-6xl font-bold mb-4">
+        <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
           <span className="gradient-text">Master Chemistry</span>
           <br />
-          <span className="text-white">Through Play</span>
+          <span className="text-gray-800 text-4xl md:text-5xl">Through Interactive Play! ⚗️</span>
         </h1>
-        <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-          Learn to balance chemical equations with our interactive, gamified learning platform.
+        <p className="text-xl md:text-2xl text-gray-700 font-semibold mb-4 max-w-3xl mx-auto leading-relaxed">
+          Balance equations, unlock achievements, and become a chemistry expert —
+          <span className="text-emerald-600"> all while having fun!</span>
+        </p>
+        <p className="text-base md:text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+          Perfect for IB MYP3 students learning chemical reactions and equation balancing 🎓
         </p>
         
         <div className="flex gap-4 justify-center">

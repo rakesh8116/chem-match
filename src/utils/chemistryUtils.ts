@@ -7,14 +7,30 @@ interface AtomCount {
 }
 
 /**
+ * Convert Unicode subscript numbers to regular numbers
+ */
+function normalizeSubscripts(formula: string): string {
+  const subscriptMap: { [key: string]: string } = {
+    '₀': '0', '₁': '1', '₂': '2', '₃': '3', '₄': '4',
+    '₅': '5', '₆': '6', '₇': '7', '₈': '8', '₉': '9'
+  };
+
+  return formula.replace(/[₀-₉]/g, (match) => subscriptMap[match] || match);
+}
+
+/**
  * Parse a chemical formula and return atom counts
  * Examples: H2O -> {H: 2, O: 1}, Ca(OH)2 -> {Ca: 1, O: 2, H: 2}
+ * Also handles Unicode subscripts: H₂O -> {H: 2, O: 1}
  */
 export function parseFormula(formula: string): AtomCount {
   const atoms: AtomCount = {};
 
+  // Convert subscripts to regular numbers
+  let cleanFormula = normalizeSubscripts(formula);
+
   // Remove state indicators like (s), (l), (g), (aq)
-  const cleanFormula = formula.replace(/\([slgaq]+\)/g, '');
+  cleanFormula = cleanFormula.replace(/\([slgaq]+\)/g, '');
 
   // Stack to handle nested parentheses
   const stack: AtomCount[] = [{}];

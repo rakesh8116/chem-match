@@ -4,6 +4,8 @@ import { CheckCircle2, XCircle, Lightbulb, RotateCcw, Trophy, AlertCircle } from
 import { useGameStore } from '@/store/gameStore';
 import { getAtomComparison, formatAtomCounts } from '@/utils/chemistryUtils';
 import { soundEffects } from '@/utils/soundEffects';
+import { equations } from '@/data/equations';
+import SuccessModal from '@/components/playground/SuccessModal';
 import confetti from 'canvas-confetti';
 
 interface EquationPart {
@@ -24,55 +26,14 @@ interface Equation {
 const PlaygroundPage: React.FC = () => {
   const { addExperience, addPoints, playerStats } = useGameStore();
 
-  const equations: Equation[] = [
-    {
-      id: 'eq1',
-      reactants: [{ formula: 'H2', coefficient: 1 }, { formula: 'O2', coefficient: 1 }],
-      products: [{ formula: 'H2O', coefficient: 1 }],
-      difficulty: 'Beginner',
-      hint: 'Count the hydrogen and oxygen atoms on each side. You need 2 H2O to balance the oxygen.',
-      solution: { reactants: [2, 1], products: [2] },
-    },
-    {
-      id: 'eq2',
-      reactants: [{ formula: 'N2', coefficient: 1 }, { formula: 'H2', coefficient: 1 }],
-      products: [{ formula: 'NH3', coefficient: 1 }],
-      difficulty: 'Beginner',
-      hint: 'Each N2 molecule has 2 nitrogen atoms. You need to balance both nitrogen and hydrogen.',
-      solution: { reactants: [1, 3], products: [2] },
-    },
-    {
-      id: 'eq3',
-      reactants: [{ formula: 'CH4', coefficient: 1 }, { formula: 'O2', coefficient: 1 }],
-      products: [{ formula: 'CO2', coefficient: 1 }, { formula: 'H2O', coefficient: 1 }],
-      difficulty: 'Intermediate',
-      hint: 'Start by balancing carbon, then hydrogen, and finally oxygen.',
-      solution: { reactants: [1, 2], products: [1, 2] },
-    },
-    {
-      id: 'eq4',
-      reactants: [{ formula: 'Fe', coefficient: 1 }, { formula: 'O2', coefficient: 1 }],
-      products: [{ formula: 'Fe2O3', coefficient: 1 }],
-      difficulty: 'Intermediate',
-      hint: 'You need 4 Fe atoms and 3 O2 molecules to form 2 Fe2O3.',
-      solution: { reactants: [4, 3], products: [2] },
-    },
-    {
-      id: 'eq5',
-      reactants: [{ formula: 'C3H8', coefficient: 1 }, { formula: 'O2', coefficient: 1 }],
-      products: [{ formula: 'CO2', coefficient: 1 }, { formula: 'H2O', coefficient: 1 }],
-      difficulty: 'Advanced',
-      hint: 'This is propane combustion. Balance carbon first (3), then hydrogen (4), and finally oxygen (5).',
-      solution: { reactants: [1, 5], products: [3, 4] },
-    },
-  ];
-
   const [currentEquationIndex, setCurrentEquationIndex] = useState(0);
   const [coefficients, setCoefficients] = useState<{ [key: string]: number }>({});
   const [showHint, setShowHint] = useState(false);
+  const [hintsUsed, setHintsUsed] = useState(0);
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error' | null; message: string }>({ type: null, message: '' });
   const [completedEquations, setCompletedEquations] = useState<Set<string>>(new Set());
   const [atomDetails, setAtomDetails] = useState<{ reactants: string; products: string; unbalanced: string[] } | null>(null);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const currentEquation = equations[currentEquationIndex];
 
@@ -163,6 +124,11 @@ const PlaygroundPage: React.FC = () => {
       setCompletedEquations(new Set([...completedEquations, currentEquation.id]));
       addExperience(50);
       addPoints(10, 'proton');
+
+      // Show success modal after a short delay
+      setTimeout(() => {
+        setShowSuccessModal(true);
+      }, 500);
     } else {
       // Error - play error sound
       soundEffects.playError();
@@ -174,12 +140,12 @@ const PlaygroundPage: React.FC = () => {
         type: 'error',
         message: `Not quite right!${unbalancedMsg} Check your coefficients and try again!`
       });
-    }
 
-    setTimeout(() => {
-      setFeedback({ type: null, message: '' });
-      setAtomDetails(null);
-    }, 5000);
+      setTimeout(() => {
+        setFeedback({ type: null, message: '' });
+        setAtomDetails(null);
+      }, 5000);
+    }
   };
 
   const resetEquation = () => {
@@ -192,7 +158,9 @@ const PlaygroundPage: React.FC = () => {
     });
     setCoefficients(newCoeffs);
     setShowHint(false);
+    setHintsUsed(0);
     setFeedback({ type: null, message: '' });
+    setAtomDetails(null);
   };
 
   const nextEquation = () => {
@@ -207,6 +175,23 @@ const PlaygroundPage: React.FC = () => {
     setFeedback({ type: null, message: '' });
   };
 
+  const handleModalClose = () => {
+    setShowSuccessModal(false);
+    setFeedback({ type: null, message: '' });
+    setAtomDetails(null);
+  };
+
+  const handleNextFromModal = () => {
+    setShowSuccessModal(false);
+    nextEquation();
+    resetEquation();
+  };
+
+  const handleReplayFromModal = () => {
+    setShowSuccessModal(false);
+    resetEquation();
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -218,12 +203,12 @@ const PlaygroundPage: React.FC = () => {
         <h1 className="text-4xl font-bold gradient-text">Equation Balancing Playground</h1>
         <div className="flex gap-4 text-sm">
           <div className="card px-4 py-2">
-            <span className="text-gray-400">Level:</span>
-            <span className="ml-2 text-blue-400 font-bold">{playerStats.level}</span>
+            <span className="text-gray-600">Level:</span>
+            <span className="ml-2 text-blue-600 font-bold">{playerStats.level}</span>
           </div>
           <div className="card px-4 py-2">
-            <span className="text-gray-400">XP:</span>
-            <span className="ml-2 text-purple-400 font-bold">{playerStats.experience}</span>
+            <span className="text-gray-600">XP:</span>
+            <span className="ml-2 text-purple-600 font-bold">{playerStats.experience}</span>
           </div>
         </div>
       </div>
@@ -231,10 +216,10 @@ const PlaygroundPage: React.FC = () => {
       {/* Progress */}
       <div className="card p-4 mb-6">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-gray-300">Progress</span>
-          <span className="text-blue-400">{completedEquations.size} / {equations.length} completed</span>
+          <span className="text-gray-700">Progress</span>
+          <span className="text-blue-600">{completedEquations.size} / {equations.length} completed</span>
         </div>
-        <div className="w-full bg-gray-700 rounded-full h-2">
+        <div className="w-full bg-gray-200 rounded-full h-2">
           <div
             className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all"
             style={{ width: `${(completedEquations.size / equations.length) * 100}%` }}
@@ -246,17 +231,17 @@ const PlaygroundPage: React.FC = () => {
       <div className="card p-8 mb-6">
         <div className="flex justify-between items-center mb-6">
           <div>
-            <span className="text-sm text-gray-400">Equation {currentEquationIndex + 1} of {equations.length}</span>
+            <span className="text-sm text-gray-600">Equation {currentEquationIndex + 1} of {equations.length}</span>
             <div className="flex items-center gap-2 mt-1">
               <span className={`text-xs px-2 py-1 rounded ${
-                currentEquation.difficulty === 'Beginner' ? 'bg-green-500/20 text-green-400' :
-                currentEquation.difficulty === 'Intermediate' ? 'bg-yellow-500/20 text-yellow-400' :
-                'bg-red-500/20 text-red-400'
+                currentEquation.difficulty === 'Beginner' ? 'bg-green-50 text-green-700' :
+                currentEquation.difficulty === 'Intermediate' ? 'bg-amber-50 text-amber-700' :
+                'bg-red-50 text-red-700'
               }`}>
                 {currentEquation.difficulty}
               </span>
               {completedEquations.has(currentEquation.id) && (
-                <span className="text-xs px-2 py-1 rounded bg-blue-500/20 text-blue-400 flex items-center gap-1">
+                <span className="text-xs px-2 py-1 rounded bg-blue-50 text-blue-700 flex items-center gap-1">
                   <Trophy size={12} /> Completed
                 </span>
               )}
@@ -280,18 +265,18 @@ const PlaygroundPage: React.FC = () => {
                   max="20"
                   value={getCoefficient('reactant', index)}
                   onChange={(e) => setCoefficient('reactant', index, parseInt(e.target.value) || 1)}
-                  className="w-16 px-2 py-1 bg-gray-700 border border-gray-600 rounded text-center text-white focus:border-blue-500 focus:outline-none"
+                  className="w-16 px-2 py-1 bg-white border-2 border-gray-300 rounded text-center text-gray-800 focus:border-blue-500 focus:outline-none"
                 />
-                <span className="text-2xl text-white font-mono">{reactant.formula}</span>
-                {reactant.state && <span className="text-sm text-gray-400">({reactant.state})</span>}
+                <span className="text-2xl text-gray-800 font-mono">{reactant.formula}</span>
+                {reactant.state && <span className="text-sm text-gray-600">({reactant.state})</span>}
               </div>
               {index < currentEquation.reactants.length - 1 && (
-                <span className="text-2xl text-gray-400">+</span>
+                <span className="text-2xl text-gray-600">+</span>
               )}
             </React.Fragment>
           ))}
 
-          <span className="text-3xl text-blue-400 mx-4">→</span>
+          <span className="text-3xl text-blue-600 mx-4">→</span>
 
           {/* Products */}
           {currentEquation.products.map((product, index) => (
@@ -303,13 +288,13 @@ const PlaygroundPage: React.FC = () => {
                   max="20"
                   value={getCoefficient('product', index)}
                   onChange={(e) => setCoefficient('product', index, parseInt(e.target.value) || 1)}
-                  className="w-16 px-2 py-1 bg-gray-700 border border-gray-600 rounded text-center text-white focus:border-blue-500 focus:outline-none"
+                  className="w-16 px-2 py-1 bg-white border-2 border-gray-300 rounded text-center text-gray-800 focus:border-blue-500 focus:outline-none"
                 />
-                <span className="text-2xl text-white font-mono">{product.formula}</span>
-                {product.state && <span className="text-sm text-gray-400">({product.state})</span>}
+                <span className="text-2xl text-gray-800 font-mono">{product.formula}</span>
+                {product.state && <span className="text-sm text-gray-600">({product.state})</span>}
               </div>
               {index < currentEquation.products.length - 1 && (
-                <span className="text-2xl text-gray-400">+</span>
+                <span className="text-2xl text-gray-600">+</span>
               )}
             </React.Fragment>
           ))}
@@ -329,7 +314,12 @@ const PlaygroundPage: React.FC = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => setShowHint(!showHint)}
+            onClick={() => {
+              if (!showHint) {
+                setHintsUsed(hintsUsed + 1);
+              }
+              setShowHint(!showHint);
+            }}
             className="btn-secondary px-6 py-3 flex items-center gap-2"
           >
             <Lightbulb size={20} />
@@ -348,16 +338,19 @@ const PlaygroundPage: React.FC = () => {
 
         {/* Hint */}
         <AnimatePresence>
-          {showHint && (
+          {showHint && currentEquation.hints && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="mt-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg"
+              className="mt-6 p-4 bg-amber-50 border-2 border-amber-300 rounded-lg"
             >
               <div className="flex items-start gap-2">
-                <Lightbulb size={20} className="text-yellow-400 flex-shrink-0 mt-1" />
-                <p className="text-yellow-100">{currentEquation.hint}</p>
+                <Lightbulb size={20} className="text-amber-600 flex-shrink-0 mt-1" />
+                <div className="flex-1">
+                  <p className="text-amber-800 font-semibold mb-2">Hint {Math.min(hintsUsed, currentEquation.hints.length)}/{currentEquation.hints.length}</p>
+                  <p className="text-amber-800">{currentEquation.hints[Math.min(hintsUsed - 1, currentEquation.hints.length - 1)]}</p>
+                </div>
               </div>
             </motion.div>
           )}
@@ -372,37 +365,37 @@ const PlaygroundPage: React.FC = () => {
               exit={{ opacity: 0, y: -10 }}
               className={`mt-6 p-4 rounded-lg ${
                 feedback.type === 'success'
-                  ? 'bg-green-500/10 border border-green-500/30'
-                  : 'bg-red-500/10 border border-red-500/30'
+                  ? 'bg-green-50 border-2 border-green-300'
+                  : 'bg-red-50 border-2 border-red-300'
               }`}
             >
               <div className="flex items-center gap-2 mb-3">
                 {feedback.type === 'success' ? (
-                  <CheckCircle2 size={24} className="text-green-400" />
+                  <CheckCircle2 size={24} className="text-green-600" />
                 ) : (
-                  <XCircle size={24} className="text-red-400" />
+                  <XCircle size={24} className="text-red-600" />
                 )}
-                <p className={feedback.type === 'success' ? 'text-green-100' : 'text-red-100'}>
+                <p className={feedback.type === 'success' ? 'text-green-800' : 'text-red-800'}>
                   {feedback.message}
                 </p>
               </div>
 
               {/* Atom Count Details */}
               {atomDetails && (
-                <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-gray-600">
+                <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-gray-300">
                   <div>
                     <div className="flex items-center gap-2 mb-2">
-                      <AlertCircle size={16} className="text-blue-400" />
-                      <span className="text-sm font-semibold text-blue-400">Reactants (Left)</span>
+                      <AlertCircle size={16} className="text-blue-600" />
+                      <span className="text-sm font-semibold text-blue-700">Reactants (Left)</span>
                     </div>
-                    <p className="text-sm text-gray-300">{atomDetails.reactants}</p>
+                    <p className="text-sm text-gray-700">{atomDetails.reactants}</p>
                   </div>
                   <div>
                     <div className="flex items-center gap-2 mb-2">
-                      <AlertCircle size={16} className="text-purple-400" />
-                      <span className="text-sm font-semibold text-purple-400">Products (Right)</span>
+                      <AlertCircle size={16} className="text-purple-600" />
+                      <span className="text-sm font-semibold text-purple-700">Products (Right)</span>
                     </div>
-                    <p className="text-sm text-gray-300">{atomDetails.products}</p>
+                    <p className="text-sm text-gray-700">{atomDetails.products}</p>
                   </div>
                 </div>
               )}
@@ -414,7 +407,7 @@ const PlaygroundPage: React.FC = () => {
       {/* Instructions */}
       <div className="card p-6">
         <h3 className="text-xl font-semibold mb-4">How to Play</h3>
-        <ul className="space-y-2 text-gray-300">
+        <ul className="space-y-2 text-gray-700">
           <li>• Adjust the coefficient numbers in front of each molecule to balance the equation</li>
           <li>• Make sure the number of atoms of each element is equal on both sides</li>
           <li>• Click "Check Solution" when you think you've balanced the equation</li>
@@ -422,6 +415,26 @@ const PlaygroundPage: React.FC = () => {
           <li>• Earn XP and Proton Points for each correct solution!</li>
         </ul>
       </div>
+
+      {/* Success Modal */}
+      <SuccessModal
+        isOpen={showSuccessModal}
+        onClose={handleModalClose}
+        onNextEquation={handleNextFromModal}
+        onReplay={handleReplayFromModal}
+        equation={{
+          id: currentEquation.id,
+          type: currentEquation.type,
+          difficulty: currentEquation.difficulty,
+          explanation: currentEquation.explanation,
+        }}
+        stats={{
+          xpGained: 50,
+          pointsGained: 10,
+          currentStreak: playerStats.currentStreak,
+          hintsUsed: hintsUsed,
+        }}
+      />
     </motion.div>
   );
 };

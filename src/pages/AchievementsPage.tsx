@@ -175,12 +175,12 @@ const AchievementsPage: React.FC = () => {
 
   const getCategoryBadgeColor = (category: string) => {
     const colors: Record<string, string> = {
-      beginner: 'bg-green-500/20 text-green-400 border-green-500/30',
-      intermediate: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
-      advanced: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
-      expert: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+      beginner: 'bg-green-50 text-green-700 border-green-300',
+      intermediate: 'bg-blue-50 text-blue-700 border-blue-300',
+      advanced: 'bg-purple-50 text-purple-700 border-purple-300',
+      expert: 'bg-amber-50 text-amber-700 border-amber-300',
     };
-    return colors[category] || 'bg-gray-500/20 text-gray-400 border-gray-500/30';
+    return colors[category] || 'bg-gray-50 text-gray-700 border-gray-300';
   };
 
   return (
@@ -197,16 +197,16 @@ const AchievementsPage: React.FC = () => {
         <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-2xl font-semibold mb-1">Overall Progress</h2>
-            <p className="text-gray-400">
+            <p className="text-gray-600">
               {unlockedCount} of {totalCount} achievements unlocked
             </p>
           </div>
           <div className="text-right">
             <div className="text-4xl font-bold gradient-text">{completionPercentage}%</div>
-            <p className="text-sm text-gray-400">Complete</p>
+            <p className="text-sm text-gray-600">Complete</p>
           </div>
         </div>
-        <div className="w-full bg-gray-700 rounded-full h-4">
+        <div className="w-full bg-gray-200 rounded-full h-4">
           <div
             className="bg-gradient-to-r from-blue-500 to-purple-500 h-4 rounded-full transition-all"
             style={{ width: `${completionPercentage}%` }}
@@ -217,24 +217,24 @@ const AchievementsPage: React.FC = () => {
       {/* Stats Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <div className="card p-6 text-center">
-          <Trophy size={32} className="mx-auto mb-2 text-yellow-400" />
-          <div className="text-2xl font-bold text-blue-400">{playerStats.equationsBalanced}</div>
-          <div className="text-sm text-gray-400">Equations Balanced</div>
+          <Trophy size={32} className="mx-auto mb-2 text-amber-600" />
+          <div className="text-2xl font-bold text-blue-600">{playerStats.equationsBalanced}</div>
+          <div className="text-sm text-gray-600">Equations Balanced</div>
         </div>
         <div className="card p-6 text-center">
-          <Star size={32} className="mx-auto mb-2 text-purple-400" />
-          <div className="text-2xl font-bold text-purple-400">{playerStats.perfectBalances}</div>
-          <div className="text-sm text-gray-400">Perfect Balances</div>
+          <Star size={32} className="mx-auto mb-2 text-purple-600" />
+          <div className="text-2xl font-bold text-purple-600">{playerStats.perfectBalances}</div>
+          <div className="text-sm text-gray-600">Perfect Balances</div>
         </div>
         <div className="card p-6 text-center">
-          <Flame size={32} className="mx-auto mb-2 text-orange-400" />
-          <div className="text-2xl font-bold text-orange-400">{playerStats.bestStreak}</div>
-          <div className="text-sm text-gray-400">Best Streak</div>
+          <Flame size={32} className="mx-auto mb-2 text-orange-600" />
+          <div className="text-2xl font-bold text-orange-600">{playerStats.bestStreak}</div>
+          <div className="text-sm text-gray-600">Best Streak</div>
         </div>
         <div className="card p-6 text-center">
-          <Zap size={32} className="mx-auto mb-2 text-green-400" />
-          <div className="text-2xl font-bold text-green-400">{playerStats.level}</div>
-          <div className="text-sm text-gray-400">Current Level</div>
+          <Zap size={32} className="mx-auto mb-2 text-green-600" />
+          <div className="text-2xl font-bold text-green-600">{playerStats.level}</div>
+          <div className="text-sm text-gray-600">Current Level</div>
         </div>
       </div>
 
@@ -246,8 +246,8 @@ const AchievementsPage: React.FC = () => {
             onClick={() => setSelectedCategory(category)}
             className={`px-4 py-2 rounded-lg border-2 transition-all capitalize ${
               selectedCategory === category
-                ? 'border-blue-500 bg-blue-500/20 text-blue-400'
-                : 'border-gray-600 bg-gray-700/50 text-gray-300 hover:border-gray-500'
+                ? 'border-blue-500 bg-blue-50 text-blue-700'
+                : 'border-gray-300 bg-white text-gray-700 hover:border-gray-400'
             }`}
           >
             {category}
@@ -271,7 +271,7 @@ const AchievementsPage: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05 }}
               className={`card p-6 relative overflow-hidden ${
-                achievement.unlocked ? 'border-2 border-green-500/30' : ''
+                achievement.unlocked ? 'border-2 border-green-300' : ''
               }`}
             >
               {/* Background Gradient */}
@@ -292,20 +292,20 @@ const AchievementsPage: React.FC = () => {
                     <Icon size={28} className="text-white" />
                   </div>
                   {achievement.unlocked && (
-                    <div className="bg-green-500/20 p-2 rounded-full">
-                      <Check size={20} className="text-green-400" />
+                    <div className="bg-green-100 p-2 rounded-full">
+                      <Check size={20} className="text-green-600" />
                     </div>
                   )}
                   {!achievement.unlocked && (
-                    <div className="bg-gray-600/20 p-2 rounded-full">
-                      <Lock size={20} className="text-gray-400" />
+                    <div className="bg-gray-100 p-2 rounded-full">
+                      <Lock size={20} className="text-gray-600" />
                     </div>
                   )}
                 </div>
 
                 <div className="mb-3">
                   <h3 className="text-xl font-semibold mb-1">{achievement.title}</h3>
-                  <p className="text-sm text-gray-400 mb-2">{achievement.description}</p>
+                  <p className="text-sm text-gray-600 mb-2">{achievement.description}</p>
                   <span className={`text-xs px-2 py-1 rounded border ${getCategoryBadgeColor(achievement.category)}`}>
                     {achievement.category}
                   </span>
@@ -314,12 +314,12 @@ const AchievementsPage: React.FC = () => {
                 {/* Progress Bar */}
                 <div className="mb-3">
                   <div className="flex items-center justify-between text-sm mb-1">
-                    <span className="text-gray-400">Progress</span>
-                    <span className={achievement.unlocked ? 'text-green-400' : 'text-blue-400'}>
+                    <span className="text-gray-600">Progress</span>
+                    <span className={achievement.unlocked ? 'text-green-600' : 'text-blue-600'}>
                       {achievement.progress} / {achievement.requirement}
                     </span>
                   </div>
-                  <div className="w-full bg-gray-700 rounded-full h-2">
+                  <div className="w-full bg-gray-200 rounded-full h-2">
                     <div
                       className={`h-2 rounded-full transition-all ${
                         achievement.unlocked
@@ -334,12 +334,12 @@ const AchievementsPage: React.FC = () => {
                 {/* Rewards */}
                 <div className="flex items-center gap-4 text-sm">
                   <div className="flex items-center gap-1">
-                    <Zap size={14} className="text-yellow-400" />
-                    <span className="text-gray-300">{achievement.reward.xp} XP</span>
+                    <Zap size={14} className="text-amber-600" />
+                    <span className="text-gray-700">{achievement.reward.xp} XP</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <Trophy size={14} className="text-blue-400" />
-                    <span className="text-gray-300">{achievement.reward.points} Points</span>
+                    <Trophy size={14} className="text-blue-600" />
+                    <span className="text-gray-700">{achievement.reward.points} Points</span>
                   </div>
                 </div>
               </div>

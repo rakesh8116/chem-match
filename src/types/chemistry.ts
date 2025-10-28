@@ -22,12 +22,21 @@ export interface Molecule {
   state?: 'solid' | 'liquid' | 'gas' | 'aqueous';
 }
 
+export type ReactionType =
+  | 'synthesis'
+  | 'decomposition'
+  | 'combustion'
+  | 'single-replacement'
+  | 'double-replacement'
+  | 'acid-base'
+  | 'redox';
+
 export interface ChemicalEquation {
   id: string;
   reactants: Molecule[];
   products: Molecule[];
   isBalanced: boolean;
-  type: string;
+  type: ReactionType;
   difficulty: 'beginner' | 'intermediate' | 'advanced' | 'expert';
   hints?: string[];
   explanation?: string;
@@ -57,4 +66,20 @@ export interface UserPreferences {
   hintsEnabled: boolean;
   animations: 'full' | 'reduced' | 'none';
   language: string;
+}
+
+export interface GameSession {
+  id: string;
+  startTime: number;
+  endTime?: number;
+  equationsAttempted: string[];
+  score: number;
+}
+
+export interface EquationAttempt {
+  equationId: string;
+  timestamp: number;
+  isCorrect: boolean;
+  timeSpent: number;
+  hintsUsed: number;
 }

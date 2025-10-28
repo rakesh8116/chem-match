@@ -10,10 +10,11 @@ A gamified chemistry learning platform that makes balancing chemical equations f
 ## Features
 
 ### 🎮 Interactive Gameplay
-- **Equation Balancing Playground**: Practice with 5 chemical equations from beginner to advanced
+- **Equation Balancing Playground**: Practice with 20 chemical equations from beginner to expert level
 - **Real-time Validation**: Instant feedback on your solutions
 - **Hint System**: Get helpful tips when you're stuck (costs electron credits)
 - **Progress Tracking**: Monitor your equations balanced, perfect balances, and streaks
+- **7 Reaction Types**: Synthesis, Decomposition, Single/Double Replacement, Combustion, Acid-Base, and Redox reactions
 
 ### 📊 Progression System
 - **12 Levels**: Progress through Chemistry Basics to Master Challenge
