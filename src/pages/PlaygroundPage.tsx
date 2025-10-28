@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, XCircle, Lightbulb, RotateCcw, Trophy } from 'lucide-react';
+import { CheckCircle2, XCircle, Lightbulb, RotateCcw, Trophy, AlertCircle } from 'lucide-react';
 import { useGameStore } from '@/store/gameStore';
+import { getAtomComparison, formatAtomCounts } from '@/utils/chemistryUtils';
 
 interface EquationPart {
   formula: string;
@@ -24,40 +25,40 @@ const PlaygroundPage: React.FC = () => {
   const equations: Equation[] = [
     {
       id: 'eq1',
-      reactants: [{ formula: 'H₂', coefficient: 1 }, { formula: 'O₂', coefficient: 1 }],
-      products: [{ formula: 'H₂O', coefficient: 1 }],
+      reactants: [{ formula: 'H2', coefficient: 1 }, { formula: 'O2', coefficient: 1 }],
+      products: [{ formula: 'H2O', coefficient: 1 }],
       difficulty: 'Beginner',
-      hint: 'Count the hydrogen and oxygen atoms on each side. You need 2 H₂O to balance the oxygen.',
+      hint: 'Count the hydrogen and oxygen atoms on each side. You need 2 H2O to balance the oxygen.',
       solution: { reactants: [2, 1], products: [2] },
     },
     {
       id: 'eq2',
-      reactants: [{ formula: 'N₂', coefficient: 1 }, { formula: 'H₂', coefficient: 1 }],
-      products: [{ formula: 'NH₃', coefficient: 1 }],
+      reactants: [{ formula: 'N2', coefficient: 1 }, { formula: 'H2', coefficient: 1 }],
+      products: [{ formula: 'NH3', coefficient: 1 }],
       difficulty: 'Beginner',
-      hint: 'Each N₂ molecule has 2 nitrogen atoms. You need to balance both nitrogen and hydrogen.',
+      hint: 'Each N2 molecule has 2 nitrogen atoms. You need to balance both nitrogen and hydrogen.',
       solution: { reactants: [1, 3], products: [2] },
     },
     {
       id: 'eq3',
-      reactants: [{ formula: 'CH₄', coefficient: 1 }, { formula: 'O₂', coefficient: 1 }],
-      products: [{ formula: 'CO₂', coefficient: 1 }, { formula: 'H₂O', coefficient: 1 }],
+      reactants: [{ formula: 'CH4', coefficient: 1 }, { formula: 'O2', coefficient: 1 }],
+      products: [{ formula: 'CO2', coefficient: 1 }, { formula: 'H2O', coefficient: 1 }],
       difficulty: 'Intermediate',
       hint: 'Start by balancing carbon, then hydrogen, and finally oxygen.',
       solution: { reactants: [1, 2], products: [1, 2] },
     },
     {
       id: 'eq4',
-      reactants: [{ formula: 'Fe', coefficient: 1 }, { formula: 'O₂', coefficient: 1 }],
-      products: [{ formula: 'Fe₂O₃', coefficient: 1 }],
+      reactants: [{ formula: 'Fe', coefficient: 1 }, { formula: 'O2', coefficient: 1 }],
+      products: [{ formula: 'Fe2O3', coefficient: 1 }],
       difficulty: 'Intermediate',
-      hint: 'You need 4 Fe atoms and 3 O₂ molecules to form 2 Fe₂O₃.',
+      hint: 'You need 4 Fe atoms and 3 O2 molecules to form 2 Fe2O3.',
       solution: { reactants: [4, 3], products: [2] },
     },
     {
       id: 'eq5',
-      reactants: [{ formula: 'C₃H₈', coefficient: 1 }, { formula: 'O₂', coefficient: 1 }],
-      products: [{ formula: 'CO₂', coefficient: 1 }, { formula: 'H₂O', coefficient: 1 }],
+      reactants: [{ formula: 'C3H8', coefficient: 1 }, { formula: 'O2', coefficient: 1 }],
+      products: [{ formula: 'CO2', coefficient: 1 }, { formula: 'H2O', coefficient: 1 }],
       difficulty: 'Advanced',
       hint: 'This is propane combustion. Balance carbon first (3), then hydrogen (4), and finally oxygen (5).',
       solution: { reactants: [1, 5], products: [3, 4] },
@@ -69,6 +70,7 @@ const PlaygroundPage: React.FC = () => {
   const [showHint, setShowHint] = useState(false);
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error' | null; message: string }>({ type: null, message: '' });
   const [completedEquations, setCompletedEquations] = useState<Set<string>>(new Set());
+  const [atomDetails, setAtomDetails] = useState<{ reactants: string; products: string; unbalanced: string[] } | null>(null);
 
   const currentEquation = equations[currentEquationIndex];
 
@@ -87,23 +89,46 @@ const PlaygroundPage: React.FC = () => {
   };
 
   const checkSolution = () => {
-    const userReactants = currentEquation.reactants.map((_, i) => getCoefficient('reactant', i));
-    const userProducts = currentEquation.products.map((_, i) => getCoefficient('product', i));
+    // Build reactants and products with user coefficients
+    const reactantsWithCoeffs = currentEquation.reactants.map((r, i) => ({
+      formula: r.formula,
+      coefficient: getCoefficient('reactant', i),
+    }));
 
-    const isCorrect =
-      JSON.stringify(userReactants) === JSON.stringify(currentEquation.solution.reactants) &&
-      JSON.stringify(userProducts) === JSON.stringify(currentEquation.solution.products);
+    const productsWithCoeffs = currentEquation.products.map((p, i) => ({
+      formula: p.formula,
+      coefficient: getCoefficient('product', i),
+    }));
 
-    if (isCorrect) {
+    // Use real chemistry validation
+    const comparison = getAtomComparison(reactantsWithCoeffs, productsWithCoeffs);
+
+    // Store atom details for display
+    setAtomDetails({
+      reactants: formatAtomCounts(comparison.reactantAtoms),
+      products: formatAtomCounts(comparison.productAtoms),
+      unbalanced: comparison.unbalancedElements,
+    });
+
+    if (comparison.balanced) {
       setFeedback({ type: 'success', message: 'Perfect! The equation is balanced!' });
       setCompletedEquations(new Set([...completedEquations, currentEquation.id]));
       addExperience(50);
       addPoints(10, 'proton');
     } else {
-      setFeedback({ type: 'error', message: 'Not quite right. Check your coefficients and try again!' });
+      const unbalancedMsg = comparison.unbalancedElements.length > 0
+        ? ` Unbalanced: ${comparison.unbalancedElements.join(', ')}`
+        : '';
+      setFeedback({
+        type: 'error',
+        message: `Not quite right!${unbalancedMsg} Check your coefficients and try again!`
+      });
     }
 
-    setTimeout(() => setFeedback({ type: null, message: '' }), 3000);
+    setTimeout(() => {
+      setFeedback({ type: null, message: '' });
+      setAtomDetails(null);
+    }, 5000);
   };
 
   const resetEquation = () => {
@@ -294,20 +319,42 @@ const PlaygroundPage: React.FC = () => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className={`mt-6 p-4 rounded-lg flex items-center gap-2 ${
+              className={`mt-6 p-4 rounded-lg ${
                 feedback.type === 'success'
                   ? 'bg-green-500/10 border border-green-500/30'
                   : 'bg-red-500/10 border border-red-500/30'
               }`}
             >
-              {feedback.type === 'success' ? (
-                <CheckCircle2 size={24} className="text-green-400" />
-              ) : (
-                <XCircle size={24} className="text-red-400" />
+              <div className="flex items-center gap-2 mb-3">
+                {feedback.type === 'success' ? (
+                  <CheckCircle2 size={24} className="text-green-400" />
+                ) : (
+                  <XCircle size={24} className="text-red-400" />
+                )}
+                <p className={feedback.type === 'success' ? 'text-green-100' : 'text-red-100'}>
+                  {feedback.message}
+                </p>
+              </div>
+
+              {/* Atom Count Details */}
+              {atomDetails && (
+                <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-gray-600">
+                  <div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <AlertCircle size={16} className="text-blue-400" />
+                      <span className="text-sm font-semibold text-blue-400">Reactants (Left)</span>
+                    </div>
+                    <p className="text-sm text-gray-300">{atomDetails.reactants}</p>
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <AlertCircle size={16} className="text-purple-400" />
+                      <span className="text-sm font-semibold text-purple-400">Products (Right)</span>
+                    </div>
+                    <p className="text-sm text-gray-300">{atomDetails.products}</p>
+                  </div>
+                </div>
               )}
-              <p className={feedback.type === 'success' ? 'text-green-100' : 'text-red-100'}>
-                {feedback.message}
-              </p>
             </motion.div>
           )}
         </AnimatePresence>
