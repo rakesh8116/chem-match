@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, XCircle, Lightbulb, RotateCcw, Trophy, AlertCircle } from 'lucide-react';
 import { useGameStore } from '@/store/gameStore';
 import { getAtomComparison, formatAtomCounts } from '@/utils/chemistryUtils';
+import { soundEffects } from '@/utils/soundEffects';
+import confetti from 'canvas-confetti';
 
 interface EquationPart {
   formula: string;
@@ -88,6 +90,48 @@ const PlaygroundPage: React.FC = () => {
     setCoefficients({ ...coefficients, [key]: Math.max(1, Math.min(20, value)) });
   };
 
+  const fireConfetti = () => {
+    const count = 200;
+    const defaults = {
+      origin: { y: 0.7 }
+    };
+
+    function fire(particleRatio: number, opts: any) {
+      confetti({
+        ...defaults,
+        ...opts,
+        particleCount: Math.floor(count * particleRatio)
+      });
+    }
+
+    fire(0.25, {
+      spread: 26,
+      startVelocity: 55,
+    });
+
+    fire(0.2, {
+      spread: 60,
+    });
+
+    fire(0.35, {
+      spread: 100,
+      decay: 0.91,
+      scalar: 0.8
+    });
+
+    fire(0.1, {
+      spread: 120,
+      startVelocity: 25,
+      decay: 0.92,
+      scalar: 1.2
+    });
+
+    fire(0.1, {
+      spread: 120,
+      startVelocity: 45,
+    });
+  };
+
   const checkSolution = () => {
     // Build reactants and products with user coefficients
     const reactantsWithCoeffs = currentEquation.reactants.map((r, i) => ({
@@ -111,11 +155,18 @@ const PlaygroundPage: React.FC = () => {
     });
 
     if (comparison.balanced) {
+      // Success! Play sound and confetti
+      soundEffects.playSuccess();
+      fireConfetti();
+
       setFeedback({ type: 'success', message: 'Perfect! The equation is balanced!' });
       setCompletedEquations(new Set([...completedEquations, currentEquation.id]));
       addExperience(50);
       addPoints(10, 'proton');
     } else {
+      // Error - play error sound
+      soundEffects.playError();
+
       const unbalancedMsg = comparison.unbalancedElements.length > 0
         ? ` Unbalanced: ${comparison.unbalancedElements.join(', ')}`
         : '';
