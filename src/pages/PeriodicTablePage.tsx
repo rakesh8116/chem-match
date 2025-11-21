@@ -80,7 +80,7 @@ const PeriodicTablePage: React.FC = () => {
     return config.join(' ');
   };
 
-  // Simplified periodic table data (first 36 elements for main layout)
+  // Complete periodic table data (all 118 elements)
   const elements: Element[] = [
     // Period 1
     { symbol: 'H', name: 'Hydrogen', number: 1, mass: '1.008', category: 'nonmetal', row: 1, col: 1, valency: 1 },
@@ -106,7 +106,7 @@ const PeriodicTablePage: React.FC = () => {
     { symbol: 'Cl', name: 'Chlorine', number: 17, mass: '35.45', category: 'halogen', row: 3, col: 17, valency: 1 },
     { symbol: 'Ar', name: 'Argon', number: 18, mass: '39.95', category: 'noble-gas', row: 3, col: 18, valency: 0 },
 
-    // Period 4 (partial)
+    // Period 4
     { symbol: 'K', name: 'Potassium', number: 19, mass: '39.10', category: 'alkali', row: 4, col: 1, valency: 1 },
     { symbol: 'Ca', name: 'Calcium', number: 20, mass: '40.08', category: 'alkaline', row: 4, col: 2, valency: 2 },
     { symbol: 'Sc', name: 'Scandium', number: 21, mass: '44.96', category: 'transition', row: 4, col: 3, valency: 3 },
@@ -125,6 +125,98 @@ const PeriodicTablePage: React.FC = () => {
     { symbol: 'Se', name: 'Selenium', number: 34, mass: '78.97', category: 'nonmetal', row: 4, col: 16, valency: 2 },
     { symbol: 'Br', name: 'Bromine', number: 35, mass: '79.90', category: 'halogen', row: 4, col: 17, valency: 1 },
     { symbol: 'Kr', name: 'Krypton', number: 36, mass: '83.80', category: 'noble-gas', row: 4, col: 18, valency: 0 },
+
+    // Period 5
+    { symbol: 'Rb', name: 'Rubidium', number: 37, mass: '85.47', category: 'alkali', row: 5, col: 1, valency: 1 },
+    { symbol: 'Sr', name: 'Strontium', number: 38, mass: '87.62', category: 'alkaline', row: 5, col: 2, valency: 2 },
+    { symbol: 'Y', name: 'Yttrium', number: 39, mass: '88.91', category: 'transition', row: 5, col: 3, valency: 3 },
+    { symbol: 'Zr', name: 'Zirconium', number: 40, mass: '91.22', category: 'transition', row: 5, col: 4, valency: 4 },
+    { symbol: 'Nb', name: 'Niobium', number: 41, mass: '92.91', category: 'transition', row: 5, col: 5, valency: 5 },
+    { symbol: 'Mo', name: 'Molybdenum', number: 42, mass: '95.95', category: 'transition', row: 5, col: 6, valency: 6 },
+    { symbol: 'Tc', name: 'Technetium', number: 43, mass: '98', category: 'transition', row: 5, col: 7, valency: 7 },
+    { symbol: 'Ru', name: 'Ruthenium', number: 44, mass: '101.1', category: 'transition', row: 5, col: 8, valency: 4 },
+    { symbol: 'Rh', name: 'Rhodium', number: 45, mass: '102.9', category: 'transition', row: 5, col: 9, valency: 3 },
+    { symbol: 'Pd', name: 'Palladium', number: 46, mass: '106.4', category: 'transition', row: 5, col: 10, valency: 2 },
+    { symbol: 'Ag', name: 'Silver', number: 47, mass: '107.9', category: 'transition', row: 5, col: 11, valency: 1 },
+    { symbol: 'Cd', name: 'Cadmium', number: 48, mass: '112.4', category: 'transition', row: 5, col: 12, valency: 2 },
+    { symbol: 'In', name: 'Indium', number: 49, mass: '114.8', category: 'post-transition', row: 5, col: 13, valency: 3 },
+    { symbol: 'Sn', name: 'Tin', number: 50, mass: '118.7', category: 'post-transition', row: 5, col: 14, valency: 4 },
+    { symbol: 'Sb', name: 'Antimony', number: 51, mass: '121.8', category: 'metalloid', row: 5, col: 15, valency: 3 },
+    { symbol: 'Te', name: 'Tellurium', number: 52, mass: '127.6', category: 'metalloid', row: 5, col: 16, valency: 2 },
+    { symbol: 'I', name: 'Iodine', number: 53, mass: '126.9', category: 'halogen', row: 5, col: 17, valency: 1 },
+    { symbol: 'Xe', name: 'Xenon', number: 54, mass: '131.3', category: 'noble-gas', row: 5, col: 18, valency: 0 },
+
+    // Period 6
+    { symbol: 'Cs', name: 'Caesium', number: 55, mass: '132.9', category: 'alkali', row: 6, col: 1, valency: 1 },
+    { symbol: 'Ba', name: 'Barium', number: 56, mass: '137.3', category: 'alkaline', row: 6, col: 2, valency: 2 },
+    // Lanthanides (La-Lu) shown in separate row
+    { symbol: 'La', name: 'Lanthanum', number: 57, mass: '138.9', category: 'lanthanide', row: 9, col: 3, valency: 3 },
+    { symbol: 'Ce', name: 'Cerium', number: 58, mass: '140.1', category: 'lanthanide', row: 9, col: 4, valency: 3 },
+    { symbol: 'Pr', name: 'Praseodymium', number: 59, mass: '140.9', category: 'lanthanide', row: 9, col: 5, valency: 3 },
+    { symbol: 'Nd', name: 'Neodymium', number: 60, mass: '144.2', category: 'lanthanide', row: 9, col: 6, valency: 3 },
+    { symbol: 'Pm', name: 'Promethium', number: 61, mass: '145', category: 'lanthanide', row: 9, col: 7, valency: 3 },
+    { symbol: 'Sm', name: 'Samarium', number: 62, mass: '150.4', category: 'lanthanide', row: 9, col: 8, valency: 3 },
+    { symbol: 'Eu', name: 'Europium', number: 63, mass: '152.0', category: 'lanthanide', row: 9, col: 9, valency: 3 },
+    { symbol: 'Gd', name: 'Gadolinium', number: 64, mass: '157.3', category: 'lanthanide', row: 9, col: 10, valency: 3 },
+    { symbol: 'Tb', name: 'Terbium', number: 65, mass: '158.9', category: 'lanthanide', row: 9, col: 11, valency: 3 },
+    { symbol: 'Dy', name: 'Dysprosium', number: 66, mass: '162.5', category: 'lanthanide', row: 9, col: 12, valency: 3 },
+    { symbol: 'Ho', name: 'Holmium', number: 67, mass: '164.9', category: 'lanthanide', row: 9, col: 13, valency: 3 },
+    { symbol: 'Er', name: 'Erbium', number: 68, mass: '167.3', category: 'lanthanide', row: 9, col: 14, valency: 3 },
+    { symbol: 'Tm', name: 'Thulium', number: 69, mass: '168.9', category: 'lanthanide', row: 9, col: 15, valency: 3 },
+    { symbol: 'Yb', name: 'Ytterbium', number: 70, mass: '173.0', category: 'lanthanide', row: 9, col: 16, valency: 3 },
+    { symbol: 'Lu', name: 'Lutetium', number: 71, mass: '175.0', category: 'lanthanide', row: 9, col: 17, valency: 3 },
+    // Continue Period 6
+    { symbol: 'Hf', name: 'Hafnium', number: 72, mass: '178.5', category: 'transition', row: 6, col: 4, valency: 4 },
+    { symbol: 'Ta', name: 'Tantalum', number: 73, mass: '180.9', category: 'transition', row: 6, col: 5, valency: 5 },
+    { symbol: 'W', name: 'Tungsten', number: 74, mass: '183.8', category: 'transition', row: 6, col: 6, valency: 6 },
+    { symbol: 'Re', name: 'Rhenium', number: 75, mass: '186.2', category: 'transition', row: 6, col: 7, valency: 7 },
+    { symbol: 'Os', name: 'Osmium', number: 76, mass: '190.2', category: 'transition', row: 6, col: 8, valency: 4 },
+    { symbol: 'Ir', name: 'Iridium', number: 77, mass: '192.2', category: 'transition', row: 6, col: 9, valency: 4 },
+    { symbol: 'Pt', name: 'Platinum', number: 78, mass: '195.1', category: 'transition', row: 6, col: 10, valency: 4 },
+    { symbol: 'Au', name: 'Gold', number: 79, mass: '197.0', category: 'transition', row: 6, col: 11, valency: 3 },
+    { symbol: 'Hg', name: 'Mercury', number: 80, mass: '200.6', category: 'transition', row: 6, col: 12, valency: 2 },
+    { symbol: 'Tl', name: 'Thallium', number: 81, mass: '204.4', category: 'post-transition', row: 6, col: 13, valency: 3 },
+    { symbol: 'Pb', name: 'Lead', number: 82, mass: '207.2', category: 'post-transition', row: 6, col: 14, valency: 4 },
+    { symbol: 'Bi', name: 'Bismuth', number: 83, mass: '209.0', category: 'post-transition', row: 6, col: 15, valency: 3 },
+    { symbol: 'Po', name: 'Polonium', number: 84, mass: '209', category: 'metalloid', row: 6, col: 16, valency: 2 },
+    { symbol: 'At', name: 'Astatine', number: 85, mass: '210', category: 'halogen', row: 6, col: 17, valency: 1 },
+    { symbol: 'Rn', name: 'Radon', number: 86, mass: '222', category: 'noble-gas', row: 6, col: 18, valency: 0 },
+
+    // Period 7
+    { symbol: 'Fr', name: 'Francium', number: 87, mass: '223', category: 'alkali', row: 7, col: 1, valency: 1 },
+    { symbol: 'Ra', name: 'Radium', number: 88, mass: '226', category: 'alkaline', row: 7, col: 2, valency: 2 },
+    // Actinides (Ac-Lr) shown in separate row
+    { symbol: 'Ac', name: 'Actinium', number: 89, mass: '227', category: 'actinide', row: 10, col: 3, valency: 3 },
+    { symbol: 'Th', name: 'Thorium', number: 90, mass: '232.0', category: 'actinide', row: 10, col: 4, valency: 4 },
+    { symbol: 'Pa', name: 'Protactinium', number: 91, mass: '231.0', category: 'actinide', row: 10, col: 5, valency: 5 },
+    { symbol: 'U', name: 'Uranium', number: 92, mass: '238.0', category: 'actinide', row: 10, col: 6, valency: 6 },
+    { symbol: 'Np', name: 'Neptunium', number: 93, mass: '237', category: 'actinide', row: 10, col: 7, valency: 5 },
+    { symbol: 'Pu', name: 'Plutonium', number: 94, mass: '244', category: 'actinide', row: 10, col: 8, valency: 4 },
+    { symbol: 'Am', name: 'Americium', number: 95, mass: '243', category: 'actinide', row: 10, col: 9, valency: 3 },
+    { symbol: 'Cm', name: 'Curium', number: 96, mass: '247', category: 'actinide', row: 10, col: 10, valency: 3 },
+    { symbol: 'Bk', name: 'Berkelium', number: 97, mass: '247', category: 'actinide', row: 10, col: 11, valency: 3 },
+    { symbol: 'Cf', name: 'Californium', number: 98, mass: '251', category: 'actinide', row: 10, col: 12, valency: 3 },
+    { symbol: 'Es', name: 'Einsteinium', number: 99, mass: '252', category: 'actinide', row: 10, col: 13, valency: 3 },
+    { symbol: 'Fm', name: 'Fermium', number: 100, mass: '257', category: 'actinide', row: 10, col: 14, valency: 3 },
+    { symbol: 'Md', name: 'Mendelevium', number: 101, mass: '258', category: 'actinide', row: 10, col: 15, valency: 3 },
+    { symbol: 'No', name: 'Nobelium', number: 102, mass: '259', category: 'actinide', row: 10, col: 16, valency: 2 },
+    { symbol: 'Lr', name: 'Lawrencium', number: 103, mass: '266', category: 'actinide', row: 10, col: 17, valency: 3 },
+    // Continue Period 7
+    { symbol: 'Rf', name: 'Rutherfordium', number: 104, mass: '267', category: 'transition', row: 7, col: 4, valency: 4 },
+    { symbol: 'Db', name: 'Dubnium', number: 105, mass: '268', category: 'transition', row: 7, col: 5, valency: 5 },
+    { symbol: 'Sg', name: 'Seaborgium', number: 106, mass: '269', category: 'transition', row: 7, col: 6, valency: 6 },
+    { symbol: 'Bh', name: 'Bohrium', number: 107, mass: '270', category: 'transition', row: 7, col: 7, valency: 7 },
+    { symbol: 'Hs', name: 'Hassium', number: 108, mass: '269', category: 'transition', row: 7, col: 8, valency: 8 },
+    { symbol: 'Mt', name: 'Meitnerium', number: 109, mass: '278', category: 'transition', row: 7, col: 9, valency: 3 },
+    { symbol: 'Ds', name: 'Darmstadtium', number: 110, mass: '281', category: 'transition', row: 7, col: 10, valency: 2 },
+    { symbol: 'Rg', name: 'Roentgenium', number: 111, mass: '282', category: 'transition', row: 7, col: 11, valency: 1 },
+    { symbol: 'Cn', name: 'Copernicium', number: 112, mass: '285', category: 'transition', row: 7, col: 12, valency: 2 },
+    { symbol: 'Nh', name: 'Nihonium', number: 113, mass: '286', category: 'post-transition', row: 7, col: 13, valency: 1 },
+    { symbol: 'Fl', name: 'Flerovium', number: 114, mass: '289', category: 'post-transition', row: 7, col: 14, valency: 2 },
+    { symbol: 'Mc', name: 'Moscovium', number: 115, mass: '290', category: 'post-transition', row: 7, col: 15, valency: 1 },
+    { symbol: 'Lv', name: 'Livermorium', number: 116, mass: '293', category: 'post-transition', row: 7, col: 16, valency: 2 },
+    { symbol: 'Ts', name: 'Tennessine', number: 117, mass: '294', category: 'halogen', row: 7, col: 17, valency: 1 },
+    { symbol: 'Og', name: 'Oganesson', number: 118, mass: '294', category: 'noble-gas', row: 7, col: 18, valency: 0 },
   ];
 
   const getCategoryColor = (category: string): string => {
@@ -137,6 +229,8 @@ const PeriodicTablePage: React.FC = () => {
       'nonmetal': 'bg-green-100 border-2 border-green-400 hover:bg-green-200 hover:border-green-500 text-green-900',
       'halogen': 'bg-yellow-100 border-2 border-yellow-400 hover:bg-yellow-200 hover:border-yellow-500 text-yellow-900',
       'noble-gas': 'bg-purple-100 border-2 border-purple-400 hover:bg-purple-200 hover:border-purple-500 text-purple-900',
+      'lanthanide': 'bg-cyan-100 border-2 border-cyan-400 hover:bg-cyan-200 hover:border-cyan-500 text-cyan-900',
+      'actinide': 'bg-lime-100 border-2 border-lime-400 hover:bg-lime-200 hover:border-lime-500 text-lime-900',
     };
     return colors[category] || 'bg-gray-100 border-2 border-gray-400 hover:bg-gray-200 hover:border-gray-500 text-gray-900';
   };
@@ -180,7 +274,7 @@ const PeriodicTablePage: React.FC = () => {
       {/* Legend */}
       <div className="card p-6 mb-8">
         <h3 className="text-2xl font-bold text-gray-800 mb-4">Element Categories</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           {[
             { name: 'Alkali Metals', category: 'alkali' },
             { name: 'Alkaline Earth', category: 'alkaline' },
@@ -190,6 +284,8 @@ const PeriodicTablePage: React.FC = () => {
             { name: 'Nonmetals', category: 'nonmetal' },
             { name: 'Halogens', category: 'halogen' },
             { name: 'Noble Gases', category: 'noble-gas' },
+            { name: 'Lanthanides', category: 'lanthanide' },
+            { name: 'Actinides', category: 'actinide' },
           ].map((item) => (
             <div key={item.category} className="flex items-center gap-3">
               <div className={`w-6 h-6 rounded-lg shadow-sm ${getCategoryColor(item.category)}`}></div>
